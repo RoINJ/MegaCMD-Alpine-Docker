@@ -3,7 +3,7 @@ FROM alpine:3.15
 ENV CRYPTOPP_VERSION 8.6.0
 
 RUN apk update \
-    && apk add --no-cache alpine-sdk wget autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium libsodium-dev eudev-dev linux-headers dumb-init bash c-ares libmediainfo libpcrecpp libzen gpg libuv libuv-dev \
+    && apk add --no-cache alpine-sdk wget autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium-dev eudev-dev linux-headers dumb-init bash c-ares libmediainfo libpcrecpp libzen gpg libuv-dev \
 # Build crypto++
     && mkdir -p /opt/cryptopp \
     && cd /opt/cryptopp \
@@ -28,4 +28,7 @@ RUN apk update \
         -not -name 'mega-cmd-server' -not -name 'mega-exec' \
         -print0 | xargs -n 1 -0 -I{} sh -c 'if [ -f "{}" ]; then echo "Test: {}"; {} --help > /dev/null || exit 255; fi' \
     && mega-put --help > /dev/null \
-    && mega-export --help > /dev/null
+    && mega-export --help > /dev/null \
+# Cleanup
+    && apk del make wget alpine-sdk autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium-dev eudev-dev libuv-dev linux-headers \
+    && apk add --no-cache libsodium libuv
