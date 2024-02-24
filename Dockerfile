@@ -1,5 +1,7 @@
 FROM alpine:3.15
 
+LABEL maintainer="Ivan Tarasenko <im.ivan.tarasenko@gmail.com>"
+
 ENV CRYPTOPP_VERSION 8.6.0
 
 RUN apk update \
