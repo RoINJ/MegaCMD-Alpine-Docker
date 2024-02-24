@@ -3,7 +3,7 @@ FROM alpine:3.15
 ENV CRYPTOPP_VERSION 8.6.0
 
 RUN apk update \
-    && apk add --no-cache alpine-sdk wget autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev freeimage freeimage-dev libsodium libsodium-dev eudev-dev linux-headers dumb-init bash c-ares libmediainfo libpcrecpp libzen gpg libuv libuv-dev \
+    && apk add --no-cache alpine-sdk wget autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium libsodium-dev eudev-dev linux-headers dumb-init bash c-ares libmediainfo libpcrecpp libzen gpg libuv libuv-dev \
 # Build crypto++
     && mkdir -p /opt/cryptopp \
     && cd /opt/cryptopp \
@@ -19,7 +19,7 @@ RUN apk update \
     && cd /opt/MEGAcmd \
     && git submodule update --init --recursive \
     && sh autogen.sh \
-    && ./configure --without-ffmpeg \
+    && ./configure --without-ffmpeg --without-freeimage \
     && make -j $(nproc) \
     && make install \
     && cd / \
