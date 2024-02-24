@@ -33,4 +33,8 @@ RUN apk update \
     && apk del make wget alpine-sdk autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium-dev eudev-dev libuv-dev linux-headers \
     && apk add --no-cache libsodium libuv
 
+COPY healthcheck.sh /bin/healthcheck.sh
+RUN chmod +x /bin/healthcheck.sh
+
 ENTRYPOINT ["mega-cmd-server"]
+HEALTHCHECK --interval=1m --timeout=5s --retries=2 CMD /bin/healthcheck.sh
