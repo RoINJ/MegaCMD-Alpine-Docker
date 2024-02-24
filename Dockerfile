@@ -32,3 +32,5 @@ RUN apk update \
 # Cleanup
     && apk del make wget alpine-sdk autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium-dev eudev-dev libuv-dev linux-headers \
     && apk add --no-cache libsodium libuv
+
+ENTRYPOINT ["mega-cmd-server"]
