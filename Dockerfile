@@ -23,4 +23,9 @@ RUN apk update \
     && make -j $(nproc) \
     && make install \
     && cd / \
-    && rm -rf /opt/MEGAcmd
+    && rm -rf /opt/MEGAcmd \
+    && find /usr/local/bin -type f  -executable -name 'mega-*' \
+        -not -name 'mega-cmd-server' -not -name 'mega-exec' \
+        -print0 | xargs -n 1 -0 -I{} sh -c 'if [ -f "{}" ]; then echo "Test: {}"; {} --help > /dev/null || exit 255; fi' \
+    && mega-put --help > /dev/null \
+    && mega-export --help > /dev/null
