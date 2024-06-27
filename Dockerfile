@@ -1,11 +1,11 @@
-FROM alpine:latest
+FROM alpine:3.20.1
 
 LABEL maintainer="Ivan Tarasenko <im.ivan.tarasenko@gmail.com>"
 
 RUN apk update \
-    && apk add --no-cache alpine-sdk wget autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium-dev eudev-dev linux-headers dumb-init bash c-ares libmediainfo libpcrecpp libzen gpg libuv-dev crypto++-dev \
+    && apk add --no-cache alpine-sdk wget autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium-dev eudev-dev linux-headers dumb-init bash c-ares libmediainfo libpcrecpp libzen gpg libuv-dev crypto++-dev icu-dev \
 # Build MegaCMD
-    && git clone https://github.com/meganz/MEGAcmd.git /opt/MEGAcmd \
+    && git clone --branch 1.7.0_ArchLinux --single-branch --depth 1 https://github.com/meganz/MEGAcmd.git /opt/MEGAcmd \
     && cd /opt/MEGAcmd \
     && git submodule update --init --recursive \
     && sh autogen.sh \
@@ -20,8 +20,8 @@ RUN apk update \
     && mega-export --help > /dev/null \
     && rm -rf /opt/MEGAcmd /root/.megaCmd /tmp/* \
 # Cleanup
-    && apk del make wget alpine-sdk autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium-dev eudev-dev libuv-dev crypto++-dev linux-headers \
-    && apk add --no-cache libsodium libuv crypto++
+    && apk del make wget alpine-sdk autoconf automake libtool readline-dev sqlite-dev curl-dev c-ares-dev libraw-dev libsodium-dev eudev-dev libuv-dev crypto++-dev icu-dev linux-headers \
+    && apk add --no-cache libsodium libuv crypto++ icu
 
 COPY healthcheck.sh /bin/healthcheck.sh
 RUN chmod +x /bin/healthcheck.sh
