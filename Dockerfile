@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.20.1
 
 LABEL maintainer="Ivan Tarasenko <im.ivan.tarasenko@gmail.com>"
 
